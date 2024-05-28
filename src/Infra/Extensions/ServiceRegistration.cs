@@ -1,4 +1,5 @@
 ﻿using Domain.Interface;
+using Infra.Contexts;
 using Infra.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

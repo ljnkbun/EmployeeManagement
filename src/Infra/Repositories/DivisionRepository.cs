@@ -2,6 +2,7 @@
 using Core.Repositories;
 using Domain.Entities;
 using Domain.Interface;
+using Infra.Contexts;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Repositories

@@ -5,5 +5,6 @@ namespace Domain.Interface
 {
     public interface IRoleRepository : IGenericRepositoryAsync<Role>
     {
+        Task<bool> IsUniqueAsync(string code);
     }
 }

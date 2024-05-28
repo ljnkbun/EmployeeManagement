@@ -1,6 +1,6 @@
 ﻿using Core.Models.Requests;
 
-namespace Application.Parameters
+namespace Application.Parameters.Employees
 {
     public class EmployeeParameter : RequestParameter
     {

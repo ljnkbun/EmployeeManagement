@@ -1,5 +1,5 @@
 ﻿using Application.Models.Employees;
-using Application.Parameters;
+using Application.Parameters.Employees;
 using AutoMapper;
 using Core.Models.Response;
 using Domain.Interface;

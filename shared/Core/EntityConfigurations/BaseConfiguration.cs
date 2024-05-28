@@ -16,11 +16,11 @@ namespace Core.EntityConfigurations
 
             builder.Property(e => e.CreatedDate)
                 .HasColumnType("datetime")
-                .HasDefaultValueSql("(getdate())");
+                .HasDefaultValueSql("(CURDATE())");
 
             builder.Property(e => e.UpdatedDate)
                 .HasColumnType("datetime")
-                .HasDefaultValueSql("(getdate())");
+                .HasDefaultValueSql("(CURDATE())");
         }
     }
 }

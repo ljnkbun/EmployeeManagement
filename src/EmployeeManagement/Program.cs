@@ -1,6 +1,6 @@
 using Application.Extensions;
 using Core.Extensions;
-using Infra;
+using Infra.Contexts;
 using Infra.Extensions;
 using Microsoft.EntityFrameworkCore;
 

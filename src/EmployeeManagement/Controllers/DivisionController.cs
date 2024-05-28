@@ -1,21 +1,20 @@
-﻿using Application.Commands.Employees;
-using Application.Parameters.Employees;
-using Application.Queries.Employees;
+﻿using Application.Commands.Divisions;
+using Application.Parameters.Divisions;
+using Application.Queries.Divisions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeManagement.Controllers
 {
-    public class EmployeeController : BaseApiController
+    public class DivisionController : BaseApiController
     {
         // GET: api/v1/<controller>
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] EmployeeParameter filter)
+        public async Task<IActionResult> Get([FromQuery] DivisionParameter filter)
         {
-            return Ok(await Mediator.Send(new GetEmployeesQuery()
+            return Ok(await Mediator.Send(new GetDivisionsQuery()
             {
                 PageSize = filter.PageSize,
                 PageNumber = filter.PageNumber,
-                Username = filter.Username,
                 Name = filter.Name,
             }));
         }
@@ -24,19 +23,19 @@ namespace EmployeeManagement.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(await Mediator.Send(new GetEmployeeQuery { Id = id }));
+            return Ok(await Mediator.Send(new GetDivisionQuery { Id = id }));
         }
 
         // POST api/v1/<controller>
         [HttpPost]
-        public async Task<IActionResult> Post(CreateEmployeeCommand command)
+        public async Task<IActionResult> Post(CreateDivisionCommand command)
         {
             return Ok(await Mediator.Send(command));
         }
 
         // PUT api/v1/<controller>/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, UpdateEmployeeCommand command)
+        public async Task<IActionResult> Put(int id, UpdateDivisionCommand command)
         {
             if (id != command.Id) return BadRequest();
             return Ok(await Mediator.Send(command));
@@ -46,7 +45,7 @@ namespace EmployeeManagement.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            return Ok(await Mediator.Send(new DeleteEmployeeCommand { Id = id }));
+            return Ok(await Mediator.Send(new DeleteDivisionCommand { Id = id }));
         }
     }
 }

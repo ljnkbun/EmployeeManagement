@@ -4,7 +4,7 @@ using Infra.TypeConfigurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace Infra
+namespace Infra.Contexts
 {
     public class EmployeeManagementDBContext : DbContext
     {
@@ -13,6 +13,8 @@ namespace Infra
         {
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
+
+        public EmployeeManagementDBContext() { }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
