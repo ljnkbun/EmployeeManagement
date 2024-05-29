@@ -5,6 +5,6 @@ namespace Domain.Entities
     public class Division : BaseEntity
     {
         public string Name { get; set; } = default!;
-        public ICollection<Employee>? Employees { get; set; }
+        public virtual ICollection<Employee>? Employees { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Application.Commands.Divisions;
 using Application.Parameters.Divisions;
 using Application.Queries.Divisions;
+using EmployeeManagement.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeManagement.Controllers
@@ -9,6 +10,7 @@ namespace EmployeeManagement.Controllers
     {
         // GET: api/v1/<controller>
         [HttpGet]
+        [CusAuthorize]
         public async Task<IActionResult> Get([FromQuery] DivisionParameter filter)
         {
             return Ok(await Mediator.Send(new GetDivisionsQuery()

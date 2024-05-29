@@ -9,6 +9,7 @@ namespace Application.Commands.Employees
     {
         public int Id { get; set; }
         public string? Name { get; set; }
+        public string? Code { get; set; }
         public string? Username { get; set; }
         public string? Password { get; set; }
         public bool IsDel { set; get; } = false;
@@ -27,6 +28,7 @@ namespace Application.Commands.Employees
             if (entity == null) throw new ApiException($"Employee Not Found.");
 
             entity.Name = command.Name!;
+            entity.Code = command.Code!;
             entity.Username = command.Username!;
             entity.Password = command.Password!;
             entity.IsDel = command.IsDel;

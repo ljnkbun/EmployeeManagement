@@ -1,6 +1,7 @@
 ﻿using Application.Commands.Employees;
 using Application.Parameters.Employees;
 using Application.Queries.Employees;
+using EmployeeManagement.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeManagement.Controllers
@@ -8,6 +9,7 @@ namespace EmployeeManagement.Controllers
     public class EmployeeController : BaseApiController
     {
         // GET: api/v1/<controller>
+        [CusAuthorize]
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] EmployeeParameter filter)
         {

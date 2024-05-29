@@ -8,7 +8,8 @@ namespace Application.Commands.Employees
 {
     public class CreateEmployeeCommand : IRequest<Response<int>>
     {
-        public string Name { get; set; } = default!;
+        public string Name { get; set; } = default!; 
+        public string Code { get; set; } = default!;
         public string Username { get; set; } = default!;
         public string Password { get; set; } = default!;
         public bool IsDel { set; get; } = false;

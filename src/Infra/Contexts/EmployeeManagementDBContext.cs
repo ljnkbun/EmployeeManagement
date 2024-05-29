@@ -41,14 +41,16 @@ namespace Infra.Contexts
 
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Division> Divisions { get; set; }
-        public virtual DbSet<EmployeeRole> EmployeeRoles { get; set; }
+        public virtual DbSet<UserRole> UserRoles { get; set; }
+        public virtual DbSet<AppUser> AppUsers { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new AppUserConfiguration());
             modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
             modelBuilder.ApplyConfiguration(new DivisionConfiguration());
-            modelBuilder.ApplyConfiguration(new EmployeeRoleConfiguration());
+            modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
         }
     }

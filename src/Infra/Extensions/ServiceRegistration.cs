@@ -4,6 +4,7 @@ using Infra.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace Infra.Extensions
 {
@@ -18,9 +19,11 @@ namespace Infra.Extensions
                       .EnableSensitiveDataLogging());
 
             services.AddTransient<IEmployeeRepository, EmployeeRepository>();
+            services.AddTransient<IAppUserRepository, AppUserRepository>();
             services.AddTransient<IDivisionRepository, DivisionRepository>();
-            services.AddTransient<IEmployeeRoleRepository, EmployeeRoleRepository>();
+            services.AddTransient<IUserRoleRepository, UserRoleRepository>();
             services.AddTransient<IRoleRepository, RoleRepository>();
+            services.AddTransient<IRoleActionRepository, RoleActionRepository>();
         }
     }
 }

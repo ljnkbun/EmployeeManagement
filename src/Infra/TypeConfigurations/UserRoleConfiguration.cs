@@ -5,20 +5,20 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infra.TypeConfigurations
 {
-    public class EmployeeRoleConfiguration : BaseConfiguration<EmployeeRole>
+    public class UserRoleConfiguration : BaseConfiguration<UserRole>
     {
-        public override void Configure(EntityTypeBuilder<EmployeeRole> builder)
+        public override void Configure(EntityTypeBuilder<UserRole> builder)
         {
             base.Configure(builder);
 
             builder.HasOne(s => s.Role)
-               .WithMany(g => g.EmployeeRoles)
+               .WithMany(g => g.UserRoles)
                .HasForeignKey(s => s.RoleId)
                .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(s => s.Employee)
-               .WithMany(g => g.EmployeeRoles)
-               .HasForeignKey(s => s.EmployeeId)
+            builder.HasOne(s => s.AppUser)
+               .WithMany(g => g.UserRoles)
+               .HasForeignKey(s => s.AppUserId)
                .OnDelete(DeleteBehavior.Restrict);
         }
     }
