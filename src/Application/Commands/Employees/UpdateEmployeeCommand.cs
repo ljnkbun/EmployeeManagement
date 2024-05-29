@@ -12,7 +12,6 @@ namespace Application.Commands.Employees
         public string? Code { get; set; }
         public string? Username { get; set; }
         public string? Password { get; set; }
-        public bool IsDel { set; get; } = false;
     }
     public class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmployeeCommand, Response<int>>
     {
@@ -31,7 +30,6 @@ namespace Application.Commands.Employees
             entity.Code = command.Code!;
             entity.Username = command.Username!;
             entity.Password = command.Password!;
-            entity.IsDel = command.IsDel;
 
             await _repository.UpdateAsync(entity);
             return new Response<int>(entity.Id);

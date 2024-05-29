@@ -10,7 +10,6 @@ namespace Application.Commands.Roles
         public int Id { get; set; }
         public string? Name { get; set; }
         public string? Code { get; set; }
-        public bool IsDel { set; get; } = false;
     }
     public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand, Response<int>>
     {
@@ -27,7 +26,6 @@ namespace Application.Commands.Roles
 
             entity.Name = command.Name!;
             entity.Code = command.Code!;
-            entity.IsDel = command.IsDel;
 
             await _repository.UpdateAsync(entity);
             return new Response<int>(entity.Id);
