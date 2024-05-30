@@ -10,9 +10,6 @@ namespace Core.EntityConfigurations
         {
             builder.ToTable(typeof(T).Name);
 
-            builder.Property(e => e.IsDel)
-                .IsRequired()
-                .HasDefaultValueSql("((1))");
 
             builder.Property(e => e.CreatedDate)
                 .HasColumnType("datetime")
