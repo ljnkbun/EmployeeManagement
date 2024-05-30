@@ -1,4 +1,5 @@
-﻿using Core.Settings;
+﻿using Application.Extensions;
+using Core.Settings;
 using Domain.Interface;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -32,6 +33,7 @@ namespace EmployeeManagement.Extensions
         {
             try
             {
+
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var key = Encoding.ASCII.GetBytes(_jWTSettings.SecretKey!);
                 tokenHandler.ValidateToken(token, new TokenValidationParameters
@@ -46,6 +48,10 @@ namespace EmployeeManagement.Extensions
 
                 var jwtToken = (JwtSecurityToken)validatedToken;
                 var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
+
+
+                var checkSumToken = GlobalCache.TokenStorages.GetValueOrDefault(userId);
+                if (checkSumToken == null || checkSumToken != token) return;
 
                 //Attach user to context on successful JWT validation
                 context.Items["User"] = await repository.GetByIdAsync(userId);

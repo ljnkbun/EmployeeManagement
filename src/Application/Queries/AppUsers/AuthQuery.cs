@@ -1,4 +1,5 @@
-﻿using Application.Models.AppUsers;
+﻿using Application.Extensions;
+using Application.Models.AppUsers;
 using AutoMapper;
 using Core.Exceptions;
 using Core.Models.Response;
@@ -53,7 +54,9 @@ namespace Application.Queries.AppUsers
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
 
-            //return Ok(new { Token = tokenString });
+            //cache token for logout
+            GlobalCache.TokenStorages.AddOrUpdate(user.Id, tokenString, (key, oldValue) => tokenString);
+
             return new Response<AppUserModel>(new AppUserModel() { Id = user.Id, Token = tokenString });
 
         }
