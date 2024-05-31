@@ -12,7 +12,6 @@ namespace Application.Commands.Employees
         public string Code { get; set; } = default!;
         public string Username { get; set; } = default!;
         public string Password { get; set; } = default!;
-        public bool IsDel { set; get; } = false;
     }
 
     public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeCommand, Response<int>>

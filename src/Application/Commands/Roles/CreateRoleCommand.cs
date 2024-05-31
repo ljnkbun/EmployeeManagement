@@ -10,7 +10,6 @@ namespace Application.Commands.Roles
     {
         public string Name { get; set; } = default!;
         public string Code { get; set; } = default!;
-        public bool IsDel { set; get; } = false;
     }
 
     public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, Response<int>>

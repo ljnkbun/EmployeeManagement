@@ -9,7 +9,6 @@ namespace Application.Commands.Divisions
     public class CreateDivisionCommand : IRequest<Response<int>>
     {
         public string Name { get; set; } = default!;
-        public bool IsDel { set; get; } = false;
     }
 
     public class CreateDivisionCommandHandler : IRequestHandler<CreateDivisionCommand, Response<int>>
