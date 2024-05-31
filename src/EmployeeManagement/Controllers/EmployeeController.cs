@@ -11,6 +11,7 @@ namespace EmployeeManagement.Controllers
         // GET: api/v1/<controller>
         [CusAuthorize]
         [HttpGet]
+        [CusAuthorize]
         public async Task<IActionResult> Get([FromQuery] EmployeeParameter filter)
         {
             return Ok(await Mediator.Send(new GetEmployeesQuery()
@@ -24,6 +25,7 @@ namespace EmployeeManagement.Controllers
 
         // GET api/v1/<controller>/5
         [HttpGet("{id}")]
+        [CusAuthorize]
         public async Task<IActionResult> Get(int id)
         {
             return Ok(await Mediator.Send(new GetEmployeeQuery { Id = id }));
@@ -31,6 +33,7 @@ namespace EmployeeManagement.Controllers
 
         // POST api/v1/<controller>
         [HttpPost]
+        [CusAuthorize]
         public async Task<IActionResult> Post(CreateEmployeeCommand command)
         {
             return Ok(await Mediator.Send(command));
@@ -38,6 +41,7 @@ namespace EmployeeManagement.Controllers
 
         // PUT api/v1/<controller>/5
         [HttpPut("{id}")]
+        [CusAuthorize]
         public async Task<IActionResult> Put(int id, UpdateEmployeeCommand command)
         {
             if (id != command.Id) return BadRequest();
@@ -46,6 +50,7 @@ namespace EmployeeManagement.Controllers
 
         // DELETE api/v1/<controller>/5
         [HttpDelete("{id}")]
+        [CusAuthorize]
         public async Task<IActionResult> Delete(int id)
         {
             return Ok(await Mediator.Send(new DeleteEmployeeCommand { Id = id }));

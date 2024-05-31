@@ -23,6 +23,7 @@ namespace EmployeeManagement.Controllers
 
         // GET api/v1/<controller>/5
         [HttpGet("{id}")]
+        [CusAuthorize]
         public async Task<IActionResult> Get(int id)
         {
             return Ok(await Mediator.Send(new GetDivisionQuery { Id = id }));
@@ -30,6 +31,7 @@ namespace EmployeeManagement.Controllers
 
         // POST api/v1/<controller>
         [HttpPost]
+        [CusAuthorize]
         public async Task<IActionResult> Post(CreateDivisionCommand command)
         {
             return Ok(await Mediator.Send(command));
@@ -37,6 +39,7 @@ namespace EmployeeManagement.Controllers
 
         // PUT api/v1/<controller>/5
         [HttpPut("{id}")]
+        [CusAuthorize]
         public async Task<IActionResult> Put(int id, UpdateDivisionCommand command)
         {
             if (id != command.Id) return BadRequest();
@@ -45,6 +48,7 @@ namespace EmployeeManagement.Controllers
 
         // DELETE api/v1/<controller>/5
         [HttpDelete("{id}")]
+        [CusAuthorize]
         public async Task<IActionResult> Delete(int id)
         {
             return Ok(await Mediator.Send(new DeleteDivisionCommand { Id = id }));

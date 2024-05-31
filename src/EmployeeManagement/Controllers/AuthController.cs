@@ -5,6 +5,7 @@ using Core.Models.Response;
 using EmployeeManagement.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Concurrent;
 
 namespace EmployeeManagement.Controllers
 {
@@ -21,6 +22,15 @@ namespace EmployeeManagement.Controllers
                 Password = authParameter.Password,
             }));
         }
+
+
+        [AllowAnonymous]
+        [HttpPost("cache")]
+        public async Task<IActionResult> GetToken()
+        {
+            return Ok(new Response<ConcurrentDictionary<int,string>>(GlobalCache.TokenStorages));
+        }
+
 
         [CusAuthorize]
         [HttpPost("logout/{userId}")]

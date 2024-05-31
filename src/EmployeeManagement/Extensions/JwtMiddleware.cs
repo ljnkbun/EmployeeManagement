@@ -4,6 +4,7 @@ using Domain.Interface;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 
 namespace EmployeeManagement.Extensions
@@ -54,7 +55,14 @@ namespace EmployeeManagement.Extensions
                 if (checkSumToken == null || checkSumToken != token) return;
 
                 //Attach user to context on successful JWT validation
-                context.Items["User"] = await repository.GetByIdAsync(userId);
+                var user = await repository.GetByIdAsync(userId);
+                var identity = new ClaimsIdentity(
+                [
+                    new Claim("id", user.Id.ToString(), ClaimValueTypes.Integer32),
+                    new Claim("username", user.Username, ClaimValueTypes.String)
+                ], "Custom");
+
+                context.User = new ClaimsPrincipal(identity);
             }
             catch
             {

@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+﻿using Core.Models.Response;
 using Domain.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -25,11 +25,13 @@ namespace EmployeeManagement.Extensions
 
         public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
-            var user = (AppUser?)context.HttpContext.Items["User"];
+            var userContext = context.HttpContext.User;
 
-            if (user == null)
+            if (!userContext.Identity!.IsAuthenticated)
             {
-                context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
+                context.Result = new JsonResult(new Response<string>() { Succeeded = false, Message = "Unauthorized", Data = null! })
+                { StatusCode = StatusCodes.Status401Unauthorized };
+
                 return;
             }
 
@@ -41,10 +43,12 @@ namespace EmployeeManagement.Extensions
             using var scope = _serviceProvider.CreateScope();
             var roleActionRepository = scope.ServiceProvider.GetRequiredService<IRoleActionRepository>();
 
-            var userAccessActions = await roleActionRepository.GetAllByUser(user.Id);
+            var userId = userContext.Claims.FirstOrDefault(x => x.Type == "id")!.Value;
+            var userAccessActions = await roleActionRepository.GetAllByUser(int.Parse(userId));
             if (!userAccessActions.Any(x => x.Controller.ToLower() == controllerName.ToLower() && x.Action.ToLower() == actioName.ToLower()))
             {
-                context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
+                context.Result = new JsonResult(new Response<string>() { Succeeded = false, Message = "Unauthorized", Data = null! })
+                { StatusCode = StatusCodes.Status401Unauthorized };
                 return;
             }
 

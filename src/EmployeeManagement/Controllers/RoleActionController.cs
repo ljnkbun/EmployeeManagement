@@ -1,24 +1,25 @@
-﻿using Application.Commands.Roles;
-using Application.Parameters.Roles;
-using Application.Queries.Roles;
+﻿using Application.Commands.RoleActions;
+using Application.Parameters.RoleActions;
+using Application.Queries.RoleActions;
 using EmployeeManagement.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeManagement.Controllers
 {
-    public class RoleController : BaseApiController
+    public class RoleActionController : BaseApiController
     {
         // GET: api/v1/<controller>
         [HttpGet]
         [CusAuthorize]
-        public async Task<IActionResult> Get([FromQuery] RoleParameter filter)
+        public async Task<IActionResult> Get([FromQuery] RoleActionParameter filter)
         {
-            return Ok(await Mediator.Send(new GetRolesQuery()
+            return Ok(await Mediator.Send(new GetRoleActionsQuery()
             {
                 PageSize = filter.PageSize,
                 PageNumber = filter.PageNumber,
-                Code = filter.Code,
-                Name = filter.Name,
+                Controller = filter.Controller,
+                Action = filter.Action,
+                RoleId = filter.RoleId,
             }));
         }
 
@@ -27,13 +28,13 @@ namespace EmployeeManagement.Controllers
         [CusAuthorize]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(await Mediator.Send(new GetRoleQuery { Id = id }));
+            return Ok(await Mediator.Send(new GetRoleActionQuery { Id = id }));
         }
 
         // POST api/v1/<controller>
         [HttpPost]
         [CusAuthorize]
-        public async Task<IActionResult> Post(CreateRoleCommand command)
+        public async Task<IActionResult> Post(CreateRoleActionCommand command)
         {
             return Ok(await Mediator.Send(command));
         }
@@ -41,7 +42,7 @@ namespace EmployeeManagement.Controllers
         // PUT api/v1/<controller>/5
         [HttpPut("{id}")]
         [CusAuthorize]
-        public async Task<IActionResult> Put(int id, UpdateRoleCommand command)
+        public async Task<IActionResult> Put(int id, UpdateRoleActionCommand command)
         {
             if (id != command.Id) return BadRequest();
             return Ok(await Mediator.Send(command));
@@ -52,7 +53,7 @@ namespace EmployeeManagement.Controllers
         [CusAuthorize]
         public async Task<IActionResult> Delete(int id)
         {
-            return Ok(await Mediator.Send(new DeleteRoleCommand { Id = id }));
+            return Ok(await Mediator.Send(new DeleteRoleActionCommand { Id = id }));
         }
     }
 }
