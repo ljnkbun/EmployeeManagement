@@ -21,6 +21,7 @@ var configuration = new ConfigurationBuilder()
 // Add services to the container.
 builder.Services.Configure<JWTSettings>(configuration.GetSection(AppSettingKey.JWTSettings));
 builder.Services.AddSingleton<CusAuthorizeFilter>();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddInfrastructure(configuration);
 builder.Services.AddApplication();
 builder.Services.AddHealthChecks();

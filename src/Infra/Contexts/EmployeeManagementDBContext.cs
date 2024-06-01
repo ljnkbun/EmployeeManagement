@@ -1,6 +1,7 @@
 ﻿using Core.Models.Entities;
 using Domain.Entities;
 using Infra.TypeConfigurations;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -8,31 +9,36 @@ namespace Infra.Contexts
 {
     public class EmployeeManagementDBContext : DbContext
     {
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public EmployeeManagementDBContext(DbContextOptions<EmployeeManagementDBContext> options) : base(options)
+        public EmployeeManagementDBContext(DbContextOptions<EmployeeManagementDBContext> options
+            , IHttpContextAccessor httpContextAccessor
+            ) : base(options)
         {
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public EmployeeManagementDBContext() { }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
+            var curUserId = _httpContextAccessor.HttpContext!.User.Claims.FirstOrDefault(x => x.Type == "id")!.Value;
             foreach (var entry in ChangeTracker.Entries<BaseEntity>())
             {
                 switch (entry.State)
                 {
                     case EntityState.Added:
                         entry.Entity.CreatedDate = DateTime.Now;
-                        entry.Entity.CreatedBy = 0;
+                        entry.Entity.CreatedBy = int.Parse(curUserId);
 
                         entry.Entity.UpdatedDate = DateTime.Now;
-                        entry.Entity.UpdatedBy = 0;
+                        entry.Entity.UpdatedBy = int.Parse(curUserId);
                         break;
 
                     case EntityState.Modified:
                         entry.Entity.UpdatedDate = DateTime.Now;
-                        entry.Entity.UpdatedBy = 0;
+                        entry.Entity.UpdatedBy = int.Parse(curUserId);
                         break;
                 }
             }

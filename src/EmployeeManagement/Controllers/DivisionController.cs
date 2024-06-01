@@ -18,6 +18,7 @@ namespace EmployeeManagement.Controllers
                 PageSize = filter.PageSize,
                 PageNumber = filter.PageNumber,
                 Name = filter.Name,
+                Code = filter.Code,
             }));
         }
 

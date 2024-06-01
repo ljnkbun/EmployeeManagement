@@ -2,7 +2,8 @@
 {
     public class EmployeeModel
     {
-        public int Id { get; set; } 
+        public int Id { get; set; }
+        public string Code { get; set; } = default!;
         public string Name { get; set; } = default!;
         public string Username { get; set; } = default!;
         public string Password { get; set; } = default!;

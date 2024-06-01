@@ -8,6 +8,7 @@ namespace Application.Commands.Employees
     public class UpdateEmployeeCommand : IRequest<Response<int>>
     {
         public int Id { get; set; }
+        public int DivisionId { get; set; }
         public string? Name { get; set; }
         public string? Code { get; set; }
         public string? Username { get; set; }
@@ -30,6 +31,7 @@ namespace Application.Commands.Employees
             entity.Code = command.Code!;
             entity.Username = command.Username!;
             entity.Password = command.Password!;
+            entity.DivisionId = command.DivisionId;
 
             await _repository.UpdateAsync(entity);
             return new Response<int>(entity.Id);

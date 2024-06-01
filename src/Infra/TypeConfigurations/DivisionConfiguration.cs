@@ -10,6 +10,7 @@ namespace Infra.TypeConfigurations
         {
             base.Configure(builder);
             builder.Property(e => e.Name).HasMaxLength(500);
+            builder.Property(e => e.Code).HasMaxLength(500);
 
         }
     }

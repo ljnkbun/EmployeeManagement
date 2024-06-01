@@ -9,6 +9,7 @@ namespace Application.Commands.Divisions
     {
         public int Id { get; set; }
         public string? Name { get; set; }
+        public string? Code { get; set; }
     }
     public class UpdateDivisionCommandHandler : IRequestHandler<UpdateDivisionCommand, Response<int>>
     {
@@ -24,6 +25,7 @@ namespace Application.Commands.Divisions
             if (entity == null) throw new ApiException($"Division Not Found.");
 
             entity.Name = command.Name!;
+            entity.Code = command.Code!;
 
             await _repository.UpdateAsync(entity);
             return new Response<int>(entity.Id);

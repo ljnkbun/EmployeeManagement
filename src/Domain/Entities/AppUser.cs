@@ -7,6 +7,7 @@ namespace Domain.Entities
         public string Name { get; set; } = default!;
         public string Username { get; set; } = default!;
         public string Password { get; set; } = default!;
+        public int Level { get; set; } = 0;
         public virtual ICollection<UserRole>? UserRoles { get; set; }
     }
 }
