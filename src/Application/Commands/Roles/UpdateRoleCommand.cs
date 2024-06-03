@@ -27,7 +27,7 @@ namespace Application.Commands.Roles
             entity.Name = command.Name!;
             entity.Code = command.Code!;
 
-            await _repository.UpdateAsync(entity);
+            await _repository.UpdateRoleAsync(entity);
             return new Response<int>(entity.Id);
         }
     }

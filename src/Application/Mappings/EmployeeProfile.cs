@@ -11,7 +11,9 @@ namespace Application.Mappings
     {
         public EmployeeProfile()
         {
-            CreateMap<Employee, EmployeeModel>().ReverseMap();
+            CreateMap<Employee, EmployeeModel>()
+                .ForMember(dest => dest.RoleIds, opt => opt.MapFrom(src => src.UserRoles.Select(l => l.RoleId).ToArray()))
+                .ReverseMap();
             CreateMap<CreateEmployeeCommand, Employee>();
             CreateMap<GetEmployeesQuery, EmployeeParameter>();
         }

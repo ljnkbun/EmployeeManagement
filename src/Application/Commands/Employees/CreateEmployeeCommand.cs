@@ -10,6 +10,8 @@ namespace Application.Commands.Employees
     public class CreateEmployeeCommand : IRequest<Response<int>>
     {
         public string Name { get; set; } = default!;
+        public int DivisionId { get; set; }
+        public int[]? RoleIds { get; set; }
         public string Code { get; set; } = default!;
         public string Username { get; set; } = default!;
         public string Password { get; set; } = default!;
@@ -41,10 +43,12 @@ namespace Application.Commands.Employees
             var curUserId = _httpContextAccessor.HttpContext!.User.Claims.FirstOrDefault(x => x.Type == "id")!.Value;
             var curUser = await _appUserRepository.GetByIdAsync(int.Parse(curUserId));
 
+            //user only create employee level lower 
             if (entity.Level <= curUser.Level)
-                entity.Level = curUser.Level + 1; //user only create employee level lower 
+                entity.Level = curUser.Level + 1;
 
-            await _repository.AddAsync(entity);
+            await _repository.AddEmployeeAsync(entity, request.RoleIds);
+                        
             return new Response<int>(entity.Id);
         }
     }

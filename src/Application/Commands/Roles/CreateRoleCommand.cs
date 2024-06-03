@@ -27,7 +27,7 @@ namespace Application.Commands.Roles
         public async Task<Response<int>> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
         {
             var entity = _mapper.Map<Role>(request);
-            await _repository.AddAsync(entity);
+            await _repository.AddRoleAsync(entity);
             return new Response<int>(entity.Id);
         }
     }

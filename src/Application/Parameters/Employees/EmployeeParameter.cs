@@ -6,5 +6,6 @@ namespace Application.Parameters.Employees
     {
         public string? Name { get; set; }
         public string? Username { get; set; }
+        public int? DivisionId { get; set; }
     }
 }

@@ -9,6 +9,7 @@ namespace Application.Commands.Employees
     {
         public int Id { get; set; }
         public int DivisionId { get; set; }
+        public int[]? RoleIds { get; set; }
         public string? Name { get; set; }
         public string? Code { get; set; }
         public string? Username { get; set; }
@@ -33,7 +34,7 @@ namespace Application.Commands.Employees
             entity.Password = command.Password!;
             entity.DivisionId = command.DivisionId;
 
-            await _repository.UpdateAsync(entity);
+            await _repository.UpdateEmployeeAsync(entity, command.RoleIds);
             return new Response<int>(entity.Id);
         }
     }
