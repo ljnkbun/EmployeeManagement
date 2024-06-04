@@ -30,22 +30,46 @@ namespace Core.Repositories
             return entity;
         }
 
-        public virtual async Task UpdateAsync(T entity)
+        public virtual async Task<bool> UpdateAsync(T entity)
         {
-            _dbContext.Entry(entity).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
+            try
+            {
+                _dbContext.Entry(entity).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
-        public virtual async Task DeleteAsync(T entity)
+        public virtual async Task<bool> DeleteAsync(T entity)
         {
-            _dbContext.Set<T>().Remove(entity);
-            await _dbContext.SaveChangesAsync();
+            try
+            {
+                _dbContext.Set<T>().Remove(entity);
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
-        public virtual async Task DeleteRangeAsync(List<T> entities)
+        public virtual async Task<bool> DeleteRangeAsync(List<T> entities)
         {
-            _dbContext.Set<T>().RemoveRange(entities);
-            await _dbContext.SaveChangesAsync();
+            try
+            {
+                _dbContext.Set<T>().RemoveRange(entities);
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
         public virtual async Task<IReadOnlyList<T>> GetAllAsync()
@@ -109,13 +133,21 @@ namespace Core.Repositories
             return response;
         }
 
-        public virtual async Task UpdateRangeAsync(List<T> entities)
+        public virtual async Task<bool> UpdateRangeAsync(List<T> entities)
         {
-            foreach (var entity in entities)
+            try
             {
-                _dbContext.Entry(entity).State = EntityState.Modified;
+                foreach (var entity in entities)
+                {
+                    _dbContext.Entry(entity).State = EntityState.Modified;
+                }
+                await _dbContext.SaveChangesAsync();
+                return true;
             }
-            await _dbContext.SaveChangesAsync();
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
         public virtual async Task<bool> AddRangeAsync(List<T> entities)

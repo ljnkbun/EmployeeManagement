@@ -22,7 +22,7 @@ namespace Application.Commands.Roles
         public async Task<Response<int>> Handle(DeleteRoleCommand command, CancellationToken cancellationToken)
         {
             var entity = await _repository.GetByIdAsync(command.Id) ?? throw new ApiException($"Role Not Found (Id:{command.Id}).");
-            await _repository.DeleteAsync(entity);
+            await _repository.DeleteRoleAsync(entity);
             return new Response<int>(entity.Id);
         }
     }

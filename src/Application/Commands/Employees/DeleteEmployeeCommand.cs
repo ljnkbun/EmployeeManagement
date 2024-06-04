@@ -22,7 +22,7 @@ namespace Application.Commands.Employees
         public async Task<Response<int>> Handle(DeleteEmployeeCommand command, CancellationToken cancellationToken)
         {
             var entity = await _repository.GetByIdAsync(command.Id) ?? throw new ApiException($"Employee Not Found (Id:{command.Id}).");
-            await _repository.DeleteAsync(entity);
+            await _repository.DeleteEmployeeAsync(entity);
             return new Response<int>(entity.Id);
         }
     }

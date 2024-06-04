@@ -1,8 +1,9 @@
-﻿namespace Application.Models.Employees
+﻿using Core.Models.Models;
+
+namespace Application.Models.Employees
 {
-    public class EmployeeModel
+    public class EmployeeModel : BaseModel
     {
-        public int Id { get; set; }
         public int DivisionId { get; set; }
         public int[]? RoleIds { get; set; }
         public string Code { get; set; } = default!;

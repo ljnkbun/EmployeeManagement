@@ -1,8 +1,9 @@
-﻿namespace Application.Models.Roles
+﻿using Core.Models.Models;
+
+namespace Application.Models.Roles
 {
-    public class RoleModel
+    public class RoleModel : BaseModel
     {
-        public int Id { get; set; } 
         public string Name { get; set; } = default!;
         public string Code { get; set; } = default!;
     }

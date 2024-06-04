@@ -32,7 +32,8 @@ namespace Application.Commands.Employees
             entity.Code = command.Code!;
             entity.Username = command.Username!;
             entity.Password = command.Password!;
-            entity.DivisionId = command.DivisionId;
+            if (command.DivisionId > 0)
+                entity.DivisionId = command.DivisionId;
 
             await _repository.UpdateEmployeeAsync(entity, command.RoleIds);
             return new Response<int>(entity.Id);

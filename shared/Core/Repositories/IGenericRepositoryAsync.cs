@@ -17,9 +17,9 @@ namespace Core.Repositories
             where TParam : RequestParameter;
         Task<T> AddAsync(T entity);
         Task<bool> AddRangeAsync(List<T> entities);
-        Task UpdateAsync(T entity);
-        Task UpdateRangeAsync(List<T> entities);
-        Task DeleteAsync(T entity);
-        Task DeleteRangeAsync(List<T> entities);
+        Task<bool> UpdateAsync(T entity);
+        Task<bool> UpdateRangeAsync(List<T> entities);
+        Task<bool> DeleteAsync(T entity);
+        Task<bool> DeleteRangeAsync(List<T> entities);
     }
 }

@@ -30,9 +30,11 @@ namespace Infra.Repositories
             {
                 await _employees.AddAsync(entity);
                 await _dbContext.SaveChangesAsync();
+
+
                 if (roleIds?.Any() == false)
                 {
-                    
+
                 }
                 else
                 {
@@ -65,10 +67,11 @@ namespace Infra.Repositories
             var trans = await _dbContext.Database.BeginTransactionAsync();
             try
             {
+                _employees.Update(entity);
+                await _dbContext.SaveChangesAsync();
                 if (roleIds?.Any() == false)
                 {
-                    _employees.Update(entity);
-                    await _dbContext.SaveChangesAsync();
+
                 }
                 else
                 {
@@ -103,6 +106,28 @@ namespace Infra.Repositories
         public async Task<bool> IsUniqueAsync(string username)
         {
             return await _employees.AllAsync(x => x.Username != username);
+        }
+
+        public async Task DeleteEmployeeAsync(Employee entity)
+        {
+            var trans = await _dbContext.Database.BeginTransactionAsync();
+            try
+            {
+                //del userRole
+                var userRole = await _userRoles.Where(x => x.AppUserId == entity.Id).ToListAsync();
+                if (userRole.Any())
+                    _userRoles.RemoveRange(userRole);
+
+                _employees.Remove(entity);
+                await _dbContext.SaveChangesAsync();
+
+                await trans.CommitAsync();
+            }
+            catch (Exception e)
+            {
+                await trans.RollbackAsync();
+                throw;
+            }
         }
     }
 }

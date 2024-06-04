@@ -22,7 +22,8 @@ namespace Application.Commands.Divisions
         public async Task<Response<int>> Handle(DeleteDivisionCommand command, CancellationToken cancellationToken)
         {
             var entity = await _repository.GetByIdAsync(command.Id) ?? throw new ApiException($"Division Not Found (Id:{command.Id}).");
-            await _repository.DeleteAsync(entity);
+            var rs = await _repository.DeleteAsync(entity);
+            if (!rs) throw new ApiException($"Division (Id:{command.Id}) Cant be Deleted ");
             return new Response<int>(entity.Id);
         }
     }

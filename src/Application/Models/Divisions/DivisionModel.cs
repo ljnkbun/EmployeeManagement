@@ -1,8 +1,9 @@
-﻿namespace Application.Models.Divisions
+﻿using Core.Models.Models;
+
+namespace Application.Models.Divisions
 {
-    public class DivisionModel
+    public class DivisionModel : BaseModel
     {
-        public int Id { get; set; }
         public string Code { get; set; } = default!;
         public string Name { get; set; } = default!;
     }

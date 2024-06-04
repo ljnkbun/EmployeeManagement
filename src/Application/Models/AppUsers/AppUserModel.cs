@@ -1,8 +1,9 @@
-﻿namespace Application.Models.AppUsers
+﻿using Core.Models.Models;
+
+namespace Application.Models.AppUsers
 {
-    public class AppUserModel
+    public class AppUserModel : BaseModel
     {
-        public int Id { get; set; }
         public string Token { get; set; } = default!;
     }
 }

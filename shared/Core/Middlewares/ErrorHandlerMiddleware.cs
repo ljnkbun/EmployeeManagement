@@ -1,6 +1,9 @@
 ﻿using Core.Exceptions;
 using Core.Models.Response;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Json;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System.Net;
 using System.Text.Json;
 
@@ -49,7 +52,10 @@ namespace Core.Middlewares
                             break;
                     }
                 }
-                var result = JsonSerializer.Serialize(responseModel);
+                // Get the options
+                var jsonOptions = context.RequestServices.GetService<IOptions<JsonOptions>>();
+
+                var result = JsonSerializer.Serialize(responseModel, jsonOptions?.Value.SerializerOptions);
                 await response.WriteAsync(result);
             }
         }
