@@ -22,7 +22,7 @@ namespace Application.Queries.Roles
 
         public async Task<Response<Role>> Handle(GetRoleQuery query, CancellationToken cancellationToken)
         {
-            var entity = await _repository.GetByIdAsync(query.Id);
+            var entity = await _repository.GetDeepByIdAsync(query.Id);
             if (entity == null) throw new ApiException($"Roles Not Found (Id:{query.Id}).");
             return new Response<Role>(entity);
         }

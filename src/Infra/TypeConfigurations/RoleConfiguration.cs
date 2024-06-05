@@ -1,5 +1,6 @@
 ﻿using Core.EntityConfigurations;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infra.TypeConfigurations
@@ -11,6 +12,7 @@ namespace Infra.TypeConfigurations
             base.Configure(builder);
             builder.Property(e => e.Name).HasMaxLength(500);
             builder.Property(e => e.Code).HasMaxLength(50);
+
         }
     }
 }

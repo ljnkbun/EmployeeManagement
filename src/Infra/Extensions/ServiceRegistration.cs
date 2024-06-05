@@ -13,9 +13,7 @@ namespace Infra.Extensions
         public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<EmployeeManagementDBContext>(options => options.UseMySQL(
-                configuration.GetConnectionString("DefaultConnection")!,
-                b => b.MigrationsAssembly(typeof(EmployeeManagementDBContext).Assembly.FullName)
-                      .UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery))
+                configuration.GetConnectionString("DefaultConnection")!)
                       .EnableSensitiveDataLogging());
 
             services.AddTransient<IEmployeeRepository, EmployeeRepository>();
@@ -24,6 +22,7 @@ namespace Infra.Extensions
             services.AddTransient<IUserRoleRepository, UserRoleRepository>();
             services.AddTransient<IRoleRepository, RoleRepository>();
             services.AddTransient<IRoleActionRepository, RoleActionRepository>();
+            services.AddTransient<IControllerActionRepository, ControllerActionRepository>();
         }
     }
 }

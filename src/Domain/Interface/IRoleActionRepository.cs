@@ -6,5 +6,6 @@ namespace Domain.Interface
     public interface IRoleActionRepository : IGenericRepositoryAsync<RoleAction>
     {
         Task<ICollection<RoleAction>> GetAllByUser(int userId);
+        Task<ICollection<RoleAction>> GetByIdsAsync(int[] ids);
     }
 }

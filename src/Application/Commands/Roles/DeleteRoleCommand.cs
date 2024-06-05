@@ -21,6 +21,8 @@ namespace Application.Commands.Roles
 
         public async Task<Response<int>> Handle(DeleteRoleCommand command, CancellationToken cancellationToken)
         {
+            if (command.Id == 1)//ADMIN prevent delete
+                throw new ApiException($"Role ADMIN couldnt be deleted");
             var entity = await _repository.GetByIdAsync(command.Id) ?? throw new ApiException($"Role Not Found (Id:{command.Id}).");
             await _repository.DeleteRoleAsync(entity);
             return new Response<int>(entity.Id);

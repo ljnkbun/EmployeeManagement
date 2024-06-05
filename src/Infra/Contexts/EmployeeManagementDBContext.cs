@@ -50,6 +50,8 @@ namespace Infra.Contexts
         public virtual DbSet<UserRole> UserRoles { get; set; }
         public virtual DbSet<AppUser> AppUsers { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
+        public virtual DbSet<ControllerAction> ControllerActions { get; set; }
+        //public virtual DbSet<Test> Tests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -58,6 +60,18 @@ namespace Infra.Contexts
             modelBuilder.ApplyConfiguration(new DivisionConfiguration());
             modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            modelBuilder.ApplyConfiguration(new ControllerActionConfiguration());
+
+            //foreach (var entity in modelBuilder.Model.GetEntityTypes())
+            //{
+            //    if (entity.ClrType.Name == typeof(Test).Name)
+            //    {
+            //        entity.SetSchema("ABCD");
+            //        entity.SetTableName(typeof(Test).Name);
+            //    }
+            //}
+            ////modelBuilder.Entity<Test>().ToTable(typeof(Test).Name, "ABCD").HasKey(m => m.Id);
+            //modelBuilder.ApplyConfiguration(new TestConfiguration());
         }
     }
 }

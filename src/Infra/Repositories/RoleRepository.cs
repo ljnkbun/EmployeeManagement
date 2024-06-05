@@ -83,9 +83,9 @@ namespace Infra.Repositories
             return await _roles.Where(x => roleIds!.Contains(x.Id)).ToListAsync();
         }
 
-        public async Task<Role> GetDeeepByIdAsync(int id)
+        public async Task<Role> GetDeepByIdAsync(int id)
         {
-            return await _roles.Include(x => x.UserRoles).FirstOrDefaultAsync(x => x.Id == id);
+            return await _roles.Include(x => x.UserRoles).Include(x => x.RoleActions).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<bool> IsUniqueAsync(string code)

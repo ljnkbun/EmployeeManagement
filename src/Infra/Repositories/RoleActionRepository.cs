@@ -29,5 +29,11 @@ namespace Infra.Repositories
 
             return await _roleActions.Where(x => roleIds.Contains(x.Role.Id)).ToListAsync();
         }
+
+        public async Task<ICollection<RoleAction>> GetByIdsAsync(int[] ids)
+        {
+
+            return await _roleActions.Where(x => ids.Contains(x.Id)).ToListAsync();
+        }
     }
 }
