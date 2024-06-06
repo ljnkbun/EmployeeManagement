@@ -12,12 +12,6 @@ namespace Application.Validators.Employees
         {
             _repository = repository;
 
-            RuleFor(p => p.Code)
-               .NotEmpty().WithMessage("{PropertyName} is required.")
-               .NotNull()
-               .MaximumLength(50).WithMessage("{PropertyName} must not exceed 50 characters.")
-               .MustAsync(IsUniqueCodeAsync).WithMessage("{PropertyName} must unique.");
-
             RuleFor(p => p.Username)
                 .NotEmpty().WithMessage("{PropertyName} is required.")
                 .NotNull()
@@ -42,9 +36,5 @@ namespace Application.Validators.Employees
             return await _repository.IsUniqueAsync(username);
         }
 
-        private async Task<bool> IsUniqueCodeAsync(string code, CancellationToken cancellationToken)
-        {
-            return await _repository.IsUniqueCodeAsync(code);
-        }
     }
 }

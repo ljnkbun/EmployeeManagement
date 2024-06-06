@@ -25,6 +25,19 @@ namespace Infra.Repositories
             var trans = await _dbContext.Database.BeginTransactionAsync();
             try
             {
+                //auto add controllerAction get if has role_get
+                if (entity.RoleActions.Any(x => x.Controller == "Role" && x.Action == "Get"))
+                {
+                    var roleGetRole = await _roles.Include(x => x.RoleActions).ThenInclude(x => x.ControllerAction).FirstOrDefaultAsync(x => x.Code == "Role_Get");
+
+                    entity.RoleActions?.Add(new()
+                    {
+                        Action = "Get",
+                        Controller = "ControllerAction",
+                        ControllerActionId = roleGetRole.RoleActions.FirstOrDefault(x => x.Controller == "Role" && x.Action == "Get").Id,
+                        RoleId = roleGetRole.Id
+                    });
+                }
                 await _roles.AddAsync(entity);
                 await _dbContext.SaveChangesAsync();
 
@@ -113,6 +126,19 @@ namespace Infra.Repositories
                     RoleId = entity.Id,
                 };
                 entity.RoleActions?.Add(roleActionLogout);
+            }
+            //auto add controllerAction get if has role_get
+            if (entity.RoleActions.Any(x => x.Controller == "Role" && x.Action == "Get"))
+            {
+                var roleGetRole = await _roles.Include(x => x.RoleActions).ThenInclude(x=>x.ControllerAction).FirstOrDefaultAsync(x => x.RoleActions.Any(o=>o.ControllerAction.Code=="Role_Get"));
+
+                entity.RoleActions?.Add(new()
+                {
+                    Action = "Get",
+                    Controller = "ControllerAction",
+                    ControllerActionId = roleGetRole.RoleActions.FirstOrDefault(x => x.Controller == "Role" && x.Action == "Get").ControllerAction.Id,
+                    RoleId = roleGetRole.Id
+                });
             }
             var controllerActionIds = entity.RoleActions?.Select(x => x.ControllerActionId)?.ToList();
 
