@@ -1,16 +1,15 @@
-﻿using Application.Commands.Divisions;
+﻿using Application.Commands.Roles;
 using Domain.Interface;
 using FluentValidation;
 
-namespace Application.Validators.Divisions
+namespace Application.Validators.Roles
 {
-    public class CreateDivisionCommandValidator : AbstractValidator<CreateDivisionCommand>
+    public class UpdateRoleCommandValidator : AbstractValidator<UpdateRoleCommand>
     {
-        private readonly IDivisionRepository _repository;
+        private readonly IRoleRepository _repository;
 
-        public CreateDivisionCommandValidator(IDivisionRepository repository)
+        public UpdateRoleCommandValidator(IRoleRepository repository)
         {
-
             _repository = repository;
 
             RuleFor(p => p.Code)
@@ -24,6 +23,7 @@ namespace Application.Validators.Divisions
                 .NotEmpty().WithMessage("{PropertyName} is required.")
                 .NotNull()
                 .MaximumLength(100).WithMessage("{PropertyName} must not exceed 100 characters.");
+
         }
 
         private async Task<bool> IsUniqueAsync(string code, CancellationToken cancellationToken)

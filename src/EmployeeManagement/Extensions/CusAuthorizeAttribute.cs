@@ -45,11 +45,14 @@ namespace EmployeeManagement.Extensions
 
             var userId = userContext.Claims.FirstOrDefault(x => x.Type == "id")!.Value;
             var userAccessActions = await roleActionRepository.GetAllByUser(int.Parse(userId));
-            if (!userAccessActions.Any(x => x.Controller.ToLower() == controllerName.ToLower() && x.Action.ToLower() == actioName.ToLower()))
+            if (userId != "1")//ADMIN can do everything
             {
-                context.Result = new JsonResult(new Response<string>() { Succeeded = false, Message = "Unauthorized", Data = null! })
-                { StatusCode = StatusCodes.Status401Unauthorized };
-                return;
+                if (!userAccessActions.Any(x => x.Controller.ToLower() == controllerName.ToLower() && x.Action.ToLower() == actioName.ToLower()))
+                {
+                    context.Result = new JsonResult(new Response<string>() { Succeeded = false, Message = "Unauthorized", Data = null! })
+                    { StatusCode = StatusCodes.Status401Unauthorized };
+                    return;
+                }
             }
 
         }

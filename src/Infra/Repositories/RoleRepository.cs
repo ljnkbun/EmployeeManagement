@@ -28,17 +28,6 @@ namespace Infra.Repositories
                 await _roles.AddAsync(entity);
                 await _dbContext.SaveChangesAsync();
 
-                //add action logout for user
-                var roleActionLogout = new RoleAction()
-                {
-                    Action = "Logout",
-                    Controller = "Auth",
-                    RoleId = entity.Id,
-                };
-                await _roleActions.AddAsync(roleActionLogout);
-
-                await _dbContext.SaveChangesAsync();
-
                 await trans.CommitAsync();
             }
             catch (Exception e)
@@ -98,29 +87,43 @@ namespace Infra.Repositories
             var trans = await _dbContext.Database.BeginTransactionAsync();
             try
             {
+                await UpdateRoleAction(entity);
                 _roles.Update(entity);
+
                 await _dbContext.SaveChangesAsync();
-
-                //add action logout for user
-                var check = await _roleActions.AnyAsync(x => x.Controller == "Auth" && x.Action == "Logout" && x.RoleId == entity.Id);
-                if (!check)
-                {
-                    var roleActionLogout = new RoleAction()
-                    {
-                        Action = "Logout",
-                        Controller = "Auth",
-                        RoleId = entity.Id,
-                    };
-                    await _roleActions.AddAsync(roleActionLogout);
-
-                    await _dbContext.SaveChangesAsync();
-                }
                 await trans.CommitAsync();
             }
             catch (Exception e)
             {
                 await trans.RollbackAsync();
                 throw;
+            }
+        }
+
+        private async Task UpdateRoleAction(Role entity)
+        {
+            //add action logout for user
+            var check = await _roleActions.AnyAsync(x => x.Controller == "Auth" && x.Action == "Logout" && x.RoleId == entity.Id);
+            if (!check)
+            {
+                var roleActionLogout = new RoleAction()
+                {
+                    Action = "Logout",
+                    Controller = "Auth",
+                    RoleId = entity.Id,
+                };
+                entity.RoleActions?.Add(roleActionLogout);
+            }
+            var controllerActionIds = entity.RoleActions?.Select(x => x.ControllerActionId)?.ToList();
+
+            var deleteRoleAction = await _roleActions.Where(x => x.RoleId == entity.Id
+                && !controllerActionIds!.Contains(x.ControllerActionId)
+            ).ToListAsync();
+
+            if (deleteRoleAction is not null && deleteRoleAction.Any())
+            {
+                _roleActions.RemoveRange(deleteRoleAction);
+                await _dbContext.SaveChangesAsync();
             }
         }
     }

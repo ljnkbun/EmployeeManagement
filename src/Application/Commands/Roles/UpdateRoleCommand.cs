@@ -30,7 +30,7 @@ namespace Application.Commands.Roles
         }
         public async Task<Response<int>> Handle(UpdateRoleCommand command, CancellationToken cancellationToken)
         {
-            var entity = await _repository.GetByIdAsync(command.Id);
+            var entity = await _repository.GetDeepByIdAsync(command.Id);
 
             if (entity == null) throw new ApiException($"Role Not Found.");
             if (command.ControllerActions != null)
@@ -43,7 +43,8 @@ namespace Application.Commands.Roles
                     {
                         Action = action.Action,
                         Controller = action.Controller,
-                        RoleId = entity.Id
+                        RoleId = entity.Id,
+                        ControllerActionId = action.Id
                     });
                 }
             }

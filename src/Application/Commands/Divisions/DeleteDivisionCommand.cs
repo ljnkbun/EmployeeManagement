@@ -23,7 +23,7 @@ namespace Application.Commands.Divisions
         {
             var entity = await _repository.GetByIdAsync(command.Id) ?? throw new ApiException($"Division Not Found (Id:{command.Id}).");
             var rs = await _repository.DeleteAsync(entity);
-            if (!rs) throw new ApiException($"Division (Id:{command.Id}) Cant be Deleted ");
+            if (!rs) throw new ApiException($"Division {entity.Name} Cant be Deleted because it's used");
             return new Response<int>(entity.Id);
         }
     }

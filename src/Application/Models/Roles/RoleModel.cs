@@ -6,5 +6,6 @@ namespace Application.Models.Roles
     {
         public string Name { get; set; } = default!;
         public string Code { get; set; } = default!;
+        public int[]? ControllerActions { get; set; }
     }
 }

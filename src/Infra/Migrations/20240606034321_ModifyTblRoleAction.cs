@@ -7,7 +7,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace Infra.Migrations
 {
     /// <inheritdoc />
-    public partial class InitDB : Migration
+    public partial class ModifyTblRoleAction : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -24,7 +24,7 @@ namespace Infra.Migrations
                     Name = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false),
                     Username = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
                     Password = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
-                    IsDel = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "((1))"),
+                    Level = table.Column<int>(type: "int", nullable: false),
                     CreatedBy = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(CURDATE())"),
                     UpdatedBy = table.Column<int>(type: "int", nullable: false),
@@ -37,13 +37,34 @@ namespace Infra.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "ControllerAction",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Code = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
+                    Name = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false),
+                    Controller = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
+                    Action = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
+                    CreatedBy = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(CURDATE())"),
+                    UpdatedBy = table.Column<int>(type: "int", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(CURDATE())")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ControllerAction", x => x.Id);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Division",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false),
-                    IsDel = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "((1))"),
+                    Code = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false),
                     CreatedBy = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(CURDATE())"),
                     UpdatedBy = table.Column<int>(type: "int", nullable: false),
@@ -63,7 +84,6 @@ namespace Infra.Migrations
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Code = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
                     Name = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false),
-                    IsDel = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "((1))"),
                     CreatedBy = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(CURDATE())"),
                     UpdatedBy = table.Column<int>(type: "int", nullable: false),
@@ -110,7 +130,7 @@ namespace Infra.Migrations
                     Controller = table.Column<string>(type: "longtext", nullable: false),
                     Action = table.Column<string>(type: "longtext", nullable: false),
                     RoleId = table.Column<int>(type: "int", nullable: false),
-                    IsDel = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    ControllerActionId = table.Column<int>(type: "int", nullable: false),
                     CreatedBy = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     UpdatedBy = table.Column<int>(type: "int", nullable: false),
@@ -119,6 +139,12 @@ namespace Infra.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_RoleAction", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RoleAction_ControllerAction_ControllerActionId",
+                        column: x => x.ControllerActionId,
+                        principalTable: "ControllerAction",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_RoleAction_Role_RoleId",
                         column: x => x.RoleId,
@@ -136,7 +162,6 @@ namespace Infra.Migrations
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     AppUserId = table.Column<int>(type: "int", nullable: false),
                     RoleId = table.Column<int>(type: "int", nullable: false),
-                    IsDel = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValueSql: "((1))"),
                     CreatedBy = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(CURDATE())"),
                     UpdatedBy = table.Column<int>(type: "int", nullable: false),
@@ -172,6 +197,11 @@ namespace Infra.Migrations
                 column: "DivisionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RoleAction_ControllerActionId",
+                table: "RoleAction",
+                column: "ControllerActionId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RoleAction_RoleId",
                 table: "RoleAction",
                 column: "RoleId");
@@ -201,6 +231,9 @@ namespace Infra.Migrations
 
             migrationBuilder.DropTable(
                 name: "Division");
+
+            migrationBuilder.DropTable(
+                name: "ControllerAction");
 
             migrationBuilder.DropTable(
                 name: "AppUser");

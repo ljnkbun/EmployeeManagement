@@ -9,6 +9,7 @@ namespace Domain.Interface
         Task DeleteEmployeeAsync(Employee entity);
         Task<Employee> GetDeepByIdAsync(int id);
         Task<bool> IsUniqueAsync(string username);
+        Task<bool> IsUniqueCodeAsync(string code);
         Task<bool> UpdateEmployeeAsync(Employee entity, int[]? roleIds);
     }
 }

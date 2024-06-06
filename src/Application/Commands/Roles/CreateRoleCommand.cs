@@ -10,32 +10,43 @@ namespace Application.Commands.Roles
     {
         public string Name { get; set; } = default!;
         public string Code { get; set; } = default!;
-        public int[]? RoleActions { get; set; }
+        public int[]? ControllerActions { get; set; }
     }
 
     public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, Response<int>>
     {
         private readonly IMapper _mapper;
         private readonly IRoleRepository _repository;
-        private readonly IRoleActionRepository _roleActionRepository;
+        private readonly IControllerActionRepository _controllerActionRepository;
 
         public CreateRoleCommandHandler(IMapper mapper,
             IRoleRepository repository
-            , IRoleActionRepository roleActionRepository
+            , IControllerActionRepository controllerActionRepository
             )
         {
             _repository = repository;
-            _roleActionRepository = roleActionRepository;
+            _controllerActionRepository = controllerActionRepository;
             _mapper = mapper;
         }
 
-        public async Task<Response<int>> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
+        public async Task<Response<int>> Handle(CreateRoleCommand command, CancellationToken cancellationToken)
         {
-            var entity = _mapper.Map<Role>(request);
-            if (request.RoleActions != null)
+            var entity = _mapper.Map<Role>(command);
+
+            if (command.ControllerActions != null)
             {
-                var roleAction = await _roleActionRepository.GetByIdsAsync(request.RoleActions);
-                entity.RoleActions = roleAction;
+                var controllerAction = await _controllerActionRepository.GetByIdsAsync(command.ControllerActions);
+                entity.RoleActions = new List<RoleAction>();
+                foreach (var action in controllerAction)
+                {
+                    entity.RoleActions!.Add(new()
+                    {
+                        Action = action.Action,
+                        Controller = action.Controller,
+                        RoleId = entity.Id,
+                        ControllerActionId = action.Id
+                    });
+                }
             }
             await _repository.AddRoleAsync(entity);
             return new Response<int>(entity.Id);

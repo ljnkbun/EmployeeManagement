@@ -4,11 +4,11 @@ using FluentValidation;
 
 namespace Application.Validators.Divisions
 {
-    public class CreateDivisionCommandValidator : AbstractValidator<CreateDivisionCommand>
+    public class UpdateDivisionCommandValidator : AbstractValidator<UpdateDivisionCommand>
     {
         private readonly IDivisionRepository _repository;
 
-        public CreateDivisionCommandValidator(IDivisionRepository repository)
+        public UpdateDivisionCommandValidator(IDivisionRepository repository)
         {
 
             _repository = repository;

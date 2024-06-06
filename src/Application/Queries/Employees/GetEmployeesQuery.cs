@@ -44,7 +44,7 @@ namespace Application.Queries.Employees
             var validFilter = _mapper.Map<EmployeeParameter>(request);
 #if DEBUG
             //ADMIN can see all
-            if (curUser.Id != 1)
+            if (curUserId != "1")
             {
                 validFilter.DivisionId = curUser.DivisionId;
             }

@@ -108,6 +108,11 @@ namespace Infra.Repositories
             return await _employees.AllAsync(x => x.Username != username);
         }
 
+        public async Task<bool> IsUniqueCodeAsync(string code)
+        {
+            return await _employees.AllAsync(x => x.Code != code);
+        }
+
         public async Task DeleteEmployeeAsync(Employee entity)
         {
             var trans = await _dbContext.Database.BeginTransactionAsync();

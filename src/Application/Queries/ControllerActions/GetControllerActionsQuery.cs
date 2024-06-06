@@ -12,7 +12,7 @@ namespace Application.Queries.ControllerActions
     public class GetControllerActionsQuery : IRequest<PagedResponse<IReadOnlyList<ControllerActionModel>>>
     {
         public int? PageNumber { get; set; }
-        public int? PageSize { get; set; }
+        public int? PageSize { get; set; } = -1;
 
         public string? Name { get; set; }
         public string? Code { get; set; }

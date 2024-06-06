@@ -5,5 +5,6 @@ namespace Domain.Interface
 {
     public interface IDivisionRepository : IGenericRepositoryAsync<Division>
     {
+        Task<bool> IsUniqueAsync(string code);
     }
 }

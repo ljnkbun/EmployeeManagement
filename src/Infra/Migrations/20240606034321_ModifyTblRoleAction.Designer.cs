@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infra.Migrations
 {
     [DbContext(typeof(EmployeeManagementDBContext))]
-    [Migration("20240605082643_addTblControllerAction")]
-    partial class addTblControllerAction
+    [Migration("20240606034321_ModifyTblRoleAction")]
+    partial class ModifyTblRoleAction
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -207,6 +207,9 @@ namespace Infra.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("ControllerActionId")
+                        .HasColumnType("int");
+
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
 
@@ -223,6 +226,8 @@ namespace Infra.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ControllerActionId");
 
                     b.HasIndex("RoleId");
 
@@ -284,11 +289,19 @@ namespace Infra.Migrations
 
             modelBuilder.Entity("Domain.Entities.RoleAction", b =>
                 {
+                    b.HasOne("Domain.Entities.ControllerAction", "ControllerAction")
+                        .WithMany("RoleActions")
+                        .HasForeignKey("ControllerActionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Domain.Entities.Role", "Role")
                         .WithMany("RoleActions")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("ControllerAction");
 
                     b.Navigation("Role");
                 });
@@ -331,6 +344,11 @@ namespace Infra.Migrations
             modelBuilder.Entity("Domain.Entities.AppUser", b =>
                 {
                     b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("Domain.Entities.ControllerAction", b =>
+                {
+                    b.Navigation("RoleActions");
                 });
 
             modelBuilder.Entity("Domain.Entities.Division", b =>

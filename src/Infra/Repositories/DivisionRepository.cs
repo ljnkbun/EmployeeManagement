@@ -15,5 +15,11 @@ namespace Infra.Repositories
         {
             _divisions = _dbContext.Set<Division>();
         }
+
+        public async Task<bool> IsUniqueAsync(string code)
+        {
+            return await _divisions.AllAsync(x => x.Code != code);
+        }
+
     }
 }

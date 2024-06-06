@@ -4,11 +4,11 @@ using FluentValidation;
 
 namespace Application.Validators.Employees
 {
-    public class CreateEmployeeCommandValidator : AbstractValidator<CreateEmployeeCommand>
+    public class UpdateEmployeeCommandValidator : AbstractValidator<UpdateEmployeeCommand>
     {
         private readonly IEmployeeRepository _repository;
 
-        public CreateEmployeeCommandValidator(IEmployeeRepository repository)
+        public UpdateEmployeeCommandValidator(IEmployeeRepository repository)
         {
             _repository = repository;
 
