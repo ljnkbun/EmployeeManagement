@@ -12,12 +12,12 @@ namespace Core.EntityConfigurations
 
 
             builder.Property(e => e.CreatedDate)
-                .HasColumnType("datetime")
-                .HasDefaultValueSql("(CURDATE())");
+                .HasColumnType("timestamp")
+                .HasDefaultValueSql("CURRENT_DATE");
 
             builder.Property(e => e.UpdatedDate)
-                .HasColumnType("datetime")
-                .HasDefaultValueSql("(CURDATE())");
+                .HasColumnType("timestamp")
+                .HasDefaultValueSql("CURRENT_DATE");
         }
     }
 }

@@ -12,7 +12,9 @@ namespace Infra.Extensions
     {
         public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<EmployeeManagementDBContext>(options => options.UseMySQL(
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+            AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
+            services.AddDbContext<EmployeeManagementDBContext>(options => options.UseNpgsql(
                 configuration.GetConnectionString("DefaultConnection")!)
                       .EnableSensitiveDataLogging());
 

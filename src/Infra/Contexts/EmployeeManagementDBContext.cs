@@ -42,6 +42,7 @@ namespace Infra.Contexts
                         break;
                 }
             }
+
             return base.SaveChangesAsync(cancellationToken);
         }
 
