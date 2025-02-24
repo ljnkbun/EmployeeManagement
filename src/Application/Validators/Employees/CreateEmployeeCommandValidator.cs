@@ -27,7 +27,7 @@ namespace Application.Validators.Employees
             RuleFor(p => p.Password)
                .NotEmpty().WithMessage("{PropertyName} is required.")
                .NotNull()
-               .MaximumLength(50).WithMessage("{PropertyName} must not exceed 50 characters.");
+               .MaximumLength(5000).WithMessage("{PropertyName} must not exceed 50 characters.");
 
 
             RuleFor(p => p.Name)

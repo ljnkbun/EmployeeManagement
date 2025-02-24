@@ -1,4 +1,6 @@
-﻿namespace Core.Extensions.Objects
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace Core.Extensions.Objects
 {
     public static class StringExtension
     {
@@ -54,5 +56,6 @@
         {
             return string.IsNullOrEmpty(text) ? string.Empty : text.ToLower();
         }
+
     }
 }

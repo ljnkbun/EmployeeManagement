@@ -13,7 +13,7 @@ namespace Infra.TypeConfigurations
             builder.Property(e => e.Name).HasMaxLength(500);
             builder.Property(e => e.Username).HasMaxLength(50).IsRequired();
             builder.HasIndex(e => e.Username).IsUnique();
-            builder.Property(e => e.Password).HasMaxLength(50).IsRequired();
+            builder.Property(e => e.Password).HasMaxLength(5000).IsRequired();
 
             builder.HasOne(s => s.Division)
                .WithMany(g => g.Employees)

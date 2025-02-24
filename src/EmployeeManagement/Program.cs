@@ -5,9 +5,9 @@ using EmployeeManagement.Definations;
 using EmployeeManagement.Extensions;
 using Infra.Contexts;
 using Infra.Extensions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -107,5 +107,15 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<EmployeeManagementDBContext>();
     db.Database.Migrate();
+    //Seed Data
+    var check = await db.AppUsers.AnyAsync();
+    if (!check)
+    {
+        var admin = new Domain.Entities.AppUser { Level = 1, Username = "admin", Name = "admin" };
+        admin.Password = new PasswordHasher<object?>().HashPassword(admin, "admin");
+
+        db.AppUsers.Add(admin);
+        await db.SaveChangesAsync();
+    }
 }
 app.Run();
