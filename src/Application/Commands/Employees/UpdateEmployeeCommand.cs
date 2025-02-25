@@ -2,6 +2,7 @@
 using Core.Models.Response;
 using Domain.Interface;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 
 namespace Application.Commands.Employees
 {
@@ -31,7 +32,7 @@ namespace Application.Commands.Employees
             entity.Name = command.Name!;
             entity.Code = command.Code!;
             entity.Username = command.Username!;
-            entity.Password = command.Password!;
+            entity.Password = new PasswordHasher<object?>().HashPassword(null!, command.Password!);
             if (command.DivisionId > 0)
                 entity.DivisionId = command.DivisionId;
 

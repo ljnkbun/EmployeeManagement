@@ -111,8 +111,13 @@ using (var scope = app.Services.CreateScope())
     var check = await db.AppUsers.AnyAsync();
     if (!check)
     {
-        var admin = new Domain.Entities.AppUser { Level = 1, Username = "admin", Name = "admin" };
-        admin.Password = new PasswordHasher<object?>().HashPassword(admin, "admin");
+        var admin = new Domain.Entities.AppUser
+        {
+            Level = 1,
+            Username = "admin",
+            Name = "admin",
+            Password = new PasswordHasher<object?>().HashPassword(null!, "admin")
+        };
 
         db.AppUsers.Add(admin);
         await db.SaveChangesAsync();

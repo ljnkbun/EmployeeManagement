@@ -3,6 +3,7 @@ using Core.Repositories;
 using Domain.Entities;
 using Domain.Interface;
 using Infra.Contexts;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Repositories
@@ -28,7 +29,8 @@ namespace Infra.Repositories
 
         public async Task<AppUser> ValidateUser(string username, string password)
         {
-            return await _appUsers.FirstOrDefaultAsync(x => x.Username == username && x.Password == password) ?? null!;
+            var hashPass = new PasswordHasher<object?>().HashPassword(null!, password);
+            return await _appUsers.FirstOrDefaultAsync(x => x.Username == username && x.Password == hashPass) ?? null!;
         }
     }
 }
