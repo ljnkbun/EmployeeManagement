@@ -29,8 +29,9 @@ namespace Infra.Repositories
 
         public async Task<AppUser> ValidateUser(string username, string password)
         {
+            var passwordHasher= new PasswordHasher<object?>();
             var hashPass = new PasswordHasher<object?>().HashPassword(null!, password);
-            return await _appUsers.FirstOrDefaultAsync(x => x.Username == username && x.Password == hashPass) ?? null!;
+            return await _appUsers.FirstOrDefaultAsync(x => x.Username == username && passwordHasher.VerifyHashedPassword(null!, hashPass, password) == PasswordVerificationResult.Success) ?? null!;
         }
     }
 }
